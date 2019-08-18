@@ -1,25 +1,53 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useEffect, useState} from 'react';
+import axios from 'axios';
 
-function App() {
+import LoginForm from './components/LoginForm';
+
+const App = () => {
+
+  const [isLoggedIn, setisLoggedIn] = useState(localStorage.getItem('token') ? true : false);
+  const [user, setUser] = useState({});
+  const apiUrl = 'http://localhost:8000';
+
+  const handleLogin = (e, username, password) => {
+    e.preventDefault();
+    axios.post(`${apiUrl}/token-auth/`, {
+      username: username,
+      password: password
+    })
+      .then(res => {
+        console.log(res);
+        localStorage.setItem('token', res.data.token)
+        setisLoggedIn(localStorage.getItem('token') ? true : false)
+      })
+  }
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    setisLoggedIn(false)
+  }
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      axios.get(`${apiUrl}/api/current_user/`, {
+        headers: {
+          Authorization: `JWT ${localStorage.getItem('token')}`
+        }
+      })
+        .then(res => {
+          console.log(res)
+          setUser(res.data);
+        })
+    }
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>{isLoggedIn ? `Hello ${user.username}` : "Not Logged In"}</h1>
+      <LoginForm handleLogin={handleLogin}/>
+      <h2 onClick={handleLogout}>Logout</h2>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
