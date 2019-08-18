@@ -1,13 +1,19 @@
 from rest_framework import serializers
 from rest_framework_jwt.settings import api_settings
 from django.contrib.auth.models import User
+from todos.models import Todo
+
+class TodoSerializer (serializers.ModelSerializer):
+    class Meta:
+        model = Todo
+        fields = ('task', 'completed')
 
 
 class UserSerializer(serializers.ModelSerializer):
-
+    todos = TodoSerializer(many=True, read_only=True)
     class Meta:
         model = User
-        fields = ('username',)
+        fields = ('username', 'todos')
 
 
 class UserSerializerWithToken(serializers.ModelSerializer):
