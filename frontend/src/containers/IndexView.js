@@ -1,12 +1,8 @@
 import React from 'react'
 import LoginForm from '../components/LoginForm';
-import { Redirect } from "react-router-dom";
 
 
 const IndexView = ({handleLogin, isLoggedIn}) => {
-  if (isLoggedIn) {
-    return <Redirect to='/todos'/>
-  }
   return (
     <React.Fragment>
       <header className="header--full-height">
