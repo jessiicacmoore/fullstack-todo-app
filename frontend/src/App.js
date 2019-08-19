@@ -1,8 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
-import LoginForm from './components/LoginForm';
-import SignupForm from './components/SignupForm';
+
+import IndexView from './containers/IndexView'
+import TodosView from './containers/TodosView'
 
 const App = () => {
 
@@ -51,20 +53,19 @@ const App = () => {
         .then(res => {
           setUser(res.data);
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+          console.log(err);
+          localStorage.removeItem('token');
+          setisLoggedIn(false);
+        });
     }
   }, [isLoggedIn]);
 
   return (
-    <div>
-      <h1>{isLoggedIn ? `Hello ${user.username}` : "Not Logged In"}</h1>
-      <h2>Login</h2>
-      <LoginForm handleLogin={handleLogin}/>
-      <h2>Signup</h2>
-      <SignupForm handleSignup={handleSignup} />
-
-      <h2 onClick={handleLogout} style={{color:'blue'}}>Logout</h2>
-    </div>
+    <Router>
+    	<Route path="/" exact component={() => <IndexView handleLogin={handleLogin} isLoggedIn={isLoggedIn} />} />
+    	<Route path="/todos" exact component={() => <TodosView />} />
+    </Router>
   )
 }
 
