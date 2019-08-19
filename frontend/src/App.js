@@ -55,18 +55,26 @@ const App = () => {
         })
         .catch(err => {
           console.log(err);
-          localStorage.removeItem('token');
-          setisLoggedIn(false);
         });
     }
   }, [isLoggedIn]);
 
   return (
     <Router>
-    	<Route path="/" exact component={() => <IndexView handleLogin={handleLogin} isLoggedIn={isLoggedIn} />} />
-    	<Route path="/todos" exact component={() => <TodosView />} />
+      <Route
+        path="/"
+        exact
+        component={() => (
+          <IndexView handleLogin={handleLogin} isLoggedIn={isLoggedIn} />
+        )}
+      />
+      <Route
+        path="/todos"
+        exact
+        component={() => <TodosView user={user} />}
+      />
     </Router>
-  )
+  );
 }
 
 export default App
