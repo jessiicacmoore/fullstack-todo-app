@@ -1,8 +1,9 @@
 import React from 'react'
 import LoginForm from '../components/LoginForm';
+import {Link} from 'react-router-dom'
 
 
-const IndexView = ({handleLogin, isLoggedIn}) => {
+const IndexView = ({handleLogin, isLoggedIn, handleLogout}) => {
   return (
     <React.Fragment>
       <header className="header--full-height">
@@ -10,7 +11,12 @@ const IndexView = ({handleLogin, isLoggedIn}) => {
           <h1>Literally just another<br/>to-do app.</h1>
         </div>
         <div className="header__form">
-          <LoginForm handleLogin={handleLogin} />
+          {
+            isLoggedIn ? 
+            <Link to="/todos">To dos</Link>
+            :
+            <LoginForm handleLogin={handleLogin} />
+          }
         </div>
       </header>
       <footer>

@@ -1,16 +1,15 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import { BrowserRouter as Router, Route } from "react-router-dom";
-
+import { createBrowserHistory } from 'history';
 
 import IndexView from './containers/IndexView'
 import TodosView from './containers/TodosView'
 
 const App = () => {
-
   const [isLoggedIn, setisLoggedIn] = useState(localStorage.getItem('token') ? true : false);
-  const [user, setUser] = useState({});
   const apiUrl = 'http://localhost:8000';
+  const history = createBrowserHistory();
 
   const handleLogin = (e, username, password) => {
     e.preventDefault();
@@ -19,8 +18,10 @@ const App = () => {
       password: password
     })
       .then(res => {
+        console.log(res);
         localStorage.setItem('token', res.data.token)
         setisLoggedIn(true)
+        // history.push('/todos')
       })
       .catch(err => console.log(err));
   }
@@ -45,19 +46,18 @@ const App = () => {
 
   useEffect(() => {
     if (isLoggedIn) {
-      axios.get(`${apiUrl}/api/current_user/`, {
-        headers: {
-          Authorization: `JWT ${localStorage.getItem('token')}`
-        }
+      axios.post(`${apiUrl}/token-auth-refresh/`, {
+        token: localStorage.getItem('token')
       })
         .then(res => {
-          setUser(res.data);
+          localStorage.setItem('token', res.data.token)
         })
         .catch(err => {
           console.log(err);
-        });
+          handleLogout();
+        })
     }
-  }, [isLoggedIn]);
+  }, []);
 
   return (
     <Router>
@@ -65,13 +65,13 @@ const App = () => {
         path="/"
         exact
         component={() => (
-          <IndexView handleLogin={handleLogin} isLoggedIn={isLoggedIn} />
+          <IndexView handleLogin={handleLogin} isLoggedIn={isLoggedIn} handleLogout={handleLogout}/>
         )}
       />
       <Route
         path="/todos"
         exact
-        component={() => <TodosView user={user} />}
+        component={() => <TodosView isLoggedIn={isLoggedIn}/>}
       />
     </Router>
   );

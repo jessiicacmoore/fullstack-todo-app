@@ -1,7 +1,9 @@
 from django.urls import path
-from .views import current_user, UserList
+from rest_framework import routers
+from .views import UserModelViewSet, TodosCreateUpdateDelete
 
-urlpatterns = [
-    path('current_user/', current_user),
-    path('users/', UserList.as_view())
-]
+router = routers.DefaultRouter()
+router.register(r'api/user', UserModelViewSet, basename='user')
+router.register(r'api/todo', TodosCreateUpdateDelete, basename='todos')
+
+urlpatterns = router.urls

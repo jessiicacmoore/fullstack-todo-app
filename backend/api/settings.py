@@ -138,6 +138,6 @@ CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
 )
 
-# JWT_AUTH = {
-#     'JWT_RESPONSE_PAYLOAD_HANDLER': 'api.utils.my_jwt_response_handler'
-# }
+JWT_AUTH = {
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'api.utils.my_jwt_response_handler'
+}

@@ -1,15 +1,52 @@
-import React from 'react'
-import { link } from 'fs';
+import React, {useEffect, useState} from 'react'
+import axios from 'axios'
 
-const TodosView = ({user}) => {
-  console.log(user)
+import TodoForm from '../components/ToDoForm'
+
+const TodosView = ({isLoggedIn}) => {
+  const [todos, setTodos] = useState([]);
+
+  const getTodos = () => {
+    axios.get('http://localhost:8000/api/todo/', {
+      headers : {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    })
+    .then(res => {
+      console.log(res);
+      setTodos(res.data)
+    })
+    .catch(err => console.log(err))
+  }
+
+  const handleSubmit = (e, newTodo) => {
+    e.preventDefault();
+    console.log(newTodo);
+    const postData = {
+      task: newTodo
+    }
+    const postConfig = {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`
+      }
+    }
+    axios.post('http://localhost:8000/api/todo/', postData, postConfig)
+      .then(res => {
+        console.log(res)
+      })
+      .catch(err => console.log(err))
+  }
+
+  useEffect(() => {
+    getTodos();
+  }, [])
+
   return (
     <main>
       <div className="todos">
         <h1>todos</h1>
-        <ul className="todos__list">
-          
-        </ul>
+        <TodoForm handleSubmit={handleSubmit}/>
+        {todos.length > 0 && todos.map(todo => <li key={todo.id} className={`todo ${todo.completed ? "complete" : ""}`}>{todo.task}</li>)}
       </div>
     </main>
   )
