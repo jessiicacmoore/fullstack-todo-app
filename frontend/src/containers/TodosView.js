@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 import axios from 'axios'
 
 import TodoForm from '../components/ToDoForm'
+import TodoItem from '../components/TodoItem'
 
 const TodosView = ({isLoggedIn}) => {
   const [todos, setTodos] = useState([]);
@@ -46,7 +47,7 @@ const TodosView = ({isLoggedIn}) => {
       <div className="todos">
         <h1>todos</h1>
         <TodoForm handleSubmit={handleSubmit}/>
-        {todos.length > 0 && <ul className="todos">{todos.map(todo => <li className="todos__list-item" id={todo.id}>{todo.task}</li>)}</ul>}
+        {todos.length > 0 && <ul className="todos">{todos.map(todo => <TodoItem todo={todo} key={todo.id} />)}</ul>}
       </div>
     </main>
   )

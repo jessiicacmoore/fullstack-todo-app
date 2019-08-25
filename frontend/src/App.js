@@ -50,6 +50,7 @@ const App = () => {
         token: localStorage.getItem('token')
       })
         .then(res => {
+          console.log(res)
           localStorage.setItem('token', res.data.token)
         })
         .catch(err => {
