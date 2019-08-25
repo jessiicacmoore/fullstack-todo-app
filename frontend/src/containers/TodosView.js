@@ -46,7 +46,7 @@ const TodosView = ({isLoggedIn}) => {
       <div className="todos">
         <h1>todos</h1>
         <TodoForm handleSubmit={handleSubmit}/>
-        {todos.length > 0 && todos.map(todo => <li key={todo.id} className={`todo ${todo.completed ? "complete" : ""}`}>{todo.task}</li>)}
+        {todos.length > 0 && <ul className="todos">{todos.map(todo => <li className="todos__list-item" id={todo.id}>{todo.task}</li>)}</ul>}
       </div>
     </main>
   )

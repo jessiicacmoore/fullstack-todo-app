@@ -8,8 +8,6 @@ const ToDoForm = ({handleSubmit}) => {
     setNewTodo(value);
   }
 
-  
-
   return (
     <form className="todos__form" onSubmit={(e) => handleSubmit(e, newTodo)}>
       <div className="todos__form-input">
