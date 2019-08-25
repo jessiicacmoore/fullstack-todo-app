@@ -6,7 +6,6 @@ const ToDoForm = ({handleSubmit}) => {
   const handleChange = (e) => {
     const value = e.target.value;
     setNewTodo(value);
-    console.log(newTodo)
   }
 
   

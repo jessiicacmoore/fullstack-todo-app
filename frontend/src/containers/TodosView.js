@@ -32,9 +32,9 @@ const TodosView = ({isLoggedIn}) => {
     }
     axios.post('http://localhost:8000/api/todo/', postData, postConfig)
       .then(res => {
-        console.log(res)
+        setTodos([...todos, res.data])
       })
-      .catch(err => console.log(err))
+      .catch(err => console.log(err));
   }
 
   useEffect(() => {
