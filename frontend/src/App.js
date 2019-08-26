@@ -1,8 +1,9 @@
-import React, {useEffect, useState} from 'react';
 import axios from 'axios';
+import React, {useEffect, useState} from 'react';
+import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 
-import AuthForm from "./components/AuthForm";
-import TodoForm from "./components/TodoForm";
+import Landing from "./containers/Landing"
+import Todos from "./containers/Todos"
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('accessToken') ? true : false);
@@ -10,39 +11,6 @@ function App() {
   const AUTH = axios.create({
     baseURL: 'http://localhost:8000/auth/'
   })
-
-  const API = axios.create({
-    baseURL: 'http://localhost:8000/api/',
-    headers: {
-      'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
-    }
-  })
-
-  API.interceptors.response.use(
-    response => response,
-    error => {
-      const status = error.response ? error.response.status : null;
-      const originalRequest = error.config; 
-
-      if (status === 401) {
-        return AUTH.post('token/refresh/', {
-          "refresh" : localStorage.getItem('refreshToken' || '')
-        })
-          .then(resp => {
-            const token = resp.data.access
-            localStorage.setItem('accessToken', token)
-            return token
-          }).then(token => {
-            originalRequest.headers['Authorization'] = `Bearer ${token}`;
-            return axios.request(originalRequest);
-          }); 
-      }
-      localStorage.removeItem('accessToken')
-      localStorage.removeItem('refreshToken')
-      setIsLoggedIn(false)
-      return Promise.reject(error);
-    } 
-  )
 
   const handleAuth = (e, authMethod, username, password) => {
     e.preventDefault();
@@ -66,19 +34,6 @@ function App() {
     setIsLoggedIn(false)
   }
 
-
-  const handleNewTodo = (e, newTodo) => {
-    e.preventDefault();
-    API.post('/todo/', {
-      task: newTodo
-    })
-      .then(resp => {
-        console.log(resp);
-      })
-      .catch(err => console.log(err))
-  }
-
-
   useEffect(() => {
     if (isLoggedIn) {
       AUTH.post('token/refresh/', {
@@ -96,19 +51,23 @@ function App() {
   }, [isLoggedIn])
 
   return (
-    <React.Fragment>
-      {isLoggedIn ?
-        <div>
-          <button onClick={handleAuthLogout}>Logout</button>
-          <TodoForm handleNewTodo={handleNewTodo}/>
-          <ul>
-
-          </ul>
-        </div>
-        :
-        <AuthForm authFunction="login" handleAuth={handleAuth} />
-      }
-    </React.Fragment>
+    <Router>
+      <Route
+        path="/"
+        exact
+        component={() => (
+          !isLoggedIn ?
+          <Landing isLoggedIn={isLoggedIn} handleAuth={handleAuth} handleAuthLogout={handleAuthLogout}/> : <Redirect to ="/todos" />
+        )}
+      />
+      <Route
+        path="/todos"
+        exact
+        component={() => (
+          isLoggedIn ? <Todos isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} AUTH={AUTH}/> : <Redirect to="/" />
+        )}
+      />
+    </Router>
   );
 }
 
