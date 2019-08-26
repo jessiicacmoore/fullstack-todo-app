@@ -2,7 +2,9 @@ import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 
+import Nav from './components/Nav'
 import Landing from "./containers/Landing"
+import SignInSignUp from "./containers/SignInSignUp"
 import Todos from "./containers/Todos"
 
 function App() {
@@ -48,10 +50,11 @@ function App() {
           handleAuthLogout();
         })
     }
-  }, [isLoggedIn])
+  }, [])
 
   return (
     <Router>
+      <Nav isLoggedIn={isLoggedIn} handleAuthLogout={handleAuthLogout} />
       <Route
         path="/"
         exact
@@ -65,6 +68,20 @@ function App() {
         exact
         component={() => (
           isLoggedIn ? <Todos isLoggedIn={isLoggedIn} setIsLoggedIn={setIsLoggedIn} AUTH={AUTH}/> : <Redirect to="/" />
+        )}
+      />
+      <Route
+        path="/signup"
+        exact
+        component={() => (
+          !isLoggedIn ? <SignInSignUp authFunction="register" handleAuth={handleAuth}/> : <Redirect to="/todos" />
+        )}
+      />
+      <Route
+        path="/signin"
+        exact
+        component={() => (
+          !isLoggedIn ? <SignInSignUp authFunction="login" handleAuth={handleAuth}/> : <Redirect to="/todos" />
         )}
       />
     </Router>

@@ -1,10 +1,15 @@
 import React from 'react'
-
+import {Link} from 'react-router-dom'
 import AuthForm from '../components/AuthForm'
 
 const Landing = ({isLoggedIn, handleAuth, handleAuthLogout}) => {
   return (
-    <AuthForm authFunction="login" handleAuth={handleAuth} />
+    <header className="landing">
+      <div className="landing__text-box">
+        <h1>Literally just another todo app.</h1>
+        <Link to="/signup" className="btn">Get Started</Link>
+      </div>
+    </header>
   )
 }
 

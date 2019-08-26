@@ -1,0 +1,44 @@
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: $sans-serif;
+  color: #fff;
+}
+
+ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.container {
+  width: 95%;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.btn {
+  background-color: $primary-clr;
+  border: .2rem solid $primary-clr;
+  border-radius: .2em;
+  color: #fff;
+  padding: .5em .8em;
+
+  & + .btn {
+    margin-left: 1rem;
+  }
+}
+
+.btn--ghost {
+  background-color: transparent;
+  color: $primary-clr;
+}
