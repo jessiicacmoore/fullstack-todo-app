@@ -10,7 +10,6 @@ class CreateUserView(mixins.CreateModelMixin, viewsets.GenericViewSet):
 
 class ProtectedTodoViewSet(viewsets.ModelViewSet):
     serializer_class = TodoSerializer
-    permission_classes = (permissions.AllowAny,)
 
     def get_queryset(self):
         return self.request.user.todos.all();
