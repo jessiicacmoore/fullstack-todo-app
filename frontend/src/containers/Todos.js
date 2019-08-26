@@ -61,7 +61,12 @@ const Todos = ({isLoggedIn, setIsLoggedIn, AUTH }) => {
       task: todo.task,
       completed: !todo.completed
     })
-    .then(getTodos())
+    .then(resp => {
+      const updatedTodo = resp.data;
+      const todosCopy = todos.slice();
+      todosCopy.splice(todos.indexOf(todo), 1, updatedTodo);
+      setTodos([...todosCopy]);
+    })
   }
 
   useEffect(() => {
