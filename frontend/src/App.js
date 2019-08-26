@@ -52,6 +52,7 @@ function App() {
         password: password
       })
         .then(resp => {
+          console.log(resp)
           localStorage.setItem('refreshToken', resp.data.refresh || resp.data.tokens.refresh)
           localStorage.setItem('accessToken', resp.data.access || resp.data.tokens.access)
           setIsLoggedIn(true)
@@ -92,7 +93,7 @@ function App() {
           handleAuthLogout();
         })
     }
-  }, [])
+  }, [isLoggedIn])
 
   return (
     <React.Fragment>
