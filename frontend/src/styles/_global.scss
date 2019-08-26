@@ -21,17 +21,20 @@ a {
 }
 
 .container {
-  width: 95%;
+  width: 90%;
   max-width: 1100px;
   margin: 0 auto;
 }
 
-.btn {
+.btn, 
+button {
   background-color: $primary-clr;
   border: .2rem solid $primary-clr;
   border-radius: .2em;
   color: #fff;
   padding: .5em .8em;
+  font-weight: 700;
+
 
   & + .btn {
     margin-left: 1rem;

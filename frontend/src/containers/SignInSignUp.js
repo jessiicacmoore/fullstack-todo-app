@@ -20,23 +20,26 @@ const SignInSignUp = ({authFunction, handleAuth}) => {
   return (
     <main className="auth">
       <form className="auth__form" onSubmit={(e) => handleAuth(e, authFunction, username, password)}>
-        <label className="auth__custom-input" htmlFor="username">
+        <h2>{authFunction === 'login' ? "Sign In" : "Sign Up"}</h2>
+        <label className="auth__form__custom-input" htmlFor="username">
           <input
             type="text"
             id="username"
             name="username"
             value={username}
             onChange={handleInputChange}
+            required
           />
           <span>Username</span>
         </label>
-        <label className="auth__custom-input" htmlFor="password">
+        <label className="auth__form__custom-input" htmlFor="password">
           <input
             type="password"
             name="password"
             id="password"
             value={password}
             onChange={handleInputChange}
+            required
           />
           <span>Password</span>
         </label>
