@@ -1,6 +1,11 @@
 $primary-clr: #f53b57;
+$primary-clr--lighter: scale-color($primary-clr, $lightness: 10%);
 $dark-clr: #333;
+$dark-clr--lighter: scale-color($dark-clr, $lightness: 25%);
+$green-clr: #05c46b;
+$red-clr: #ee5253;
 
 $sans-serif: 'Open Sans', sans-serif;
+$decorative: 'Pacifico', cursive;
 
 $ease: all 300ms ease;

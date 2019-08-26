@@ -6,17 +6,18 @@ const TodoForm = ({handleNewTodo}) => {
 
   return (
     <form className="todos__form" onSubmit={(e) => handleNewTodo(e, newTodo)} >
-      <label htmlFor="new-todo">
+      <label className="todos__form__custom-input" htmlFor="new-todo">
         <input
           type="text"
           name="todo"
           id="new-todo"
           value={newTodo}
           onChange={handleInputChange}
+          required
         />
         <span>New Todo</span>
       </label>
-      <button type="submit">+</button>
+      <button className="todos__form__btn btn" type="submit">+</button>
     </form>
   );
 }

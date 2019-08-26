@@ -34,10 +34,16 @@ button {
   color: #fff;
   padding: .5em .8em;
   font-weight: 700;
-
-
+  transition: $ease;
+  
   & + .btn {
     margin-left: 1rem;
+  }
+
+  &:hover,
+  &:focus {
+    background-color: $primary-clr--lighter;
+    border-color: $primary-clr--lighter;
   }
 }
 
