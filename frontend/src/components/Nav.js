@@ -1,7 +1,6 @@
 import React from 'react'
 import {Link} from 'react-router-dom';
 const Nav = ({isLoggedIn, handleAuthLogout}) => {
-  console.log(window.location.pathname);
   return (
     <nav className="nav">
       <div className="nav__container container">

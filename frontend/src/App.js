@@ -11,7 +11,7 @@ function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(localStorage.getItem('accessToken') ? true : false);
 
   const AUTH = axios.create({
-    baseURL: 'http://localhost:8000/auth/'
+    baseURL: 'https://latda-backend.herokuapp.com/auth/'
   })
 
   const handleAuth = (e, authMethod, username, password) => {

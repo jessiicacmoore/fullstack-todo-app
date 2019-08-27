@@ -8,7 +8,7 @@ const Todos = ({isLoggedIn, setIsLoggedIn, AUTH }) => {
   const [todos, setTodos] = useState([]);
 
   const API = axios.create({
-    baseURL: 'http://localhost:8000/api/',
+    baseURL: 'https://latda-backend.herokuapp.com/api/',
     headers: {
       'Authorization': `Bearer ${localStorage.getItem('accessToken')}`
     }
